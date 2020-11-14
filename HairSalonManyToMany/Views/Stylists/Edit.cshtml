@@ -1,0 +1,17 @@
+@model HairSalonManyToMany.Models.Stylist
+
+@{
+  Layout = "_Layout";
+}
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.StylistId)
+  @Html.Label("First Name")
+  @Html.EditorFor(model => model.FirstName, new{@class = "form-control"})
+
+  @Html.Label("Last Name")
+  @Html.EditorFor(model => model.LastName, new{@class = "form-control"})
+
+  <input type="submit" class="btn btn-success">
+}

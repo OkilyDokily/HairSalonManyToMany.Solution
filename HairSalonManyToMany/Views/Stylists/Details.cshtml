@@ -1,0 +1,15 @@
+@using HairSalonManyToMany.Models;
+
+@{
+  Layout = "_Layout";
+}
+<h2>@(@Model.FirstName + " " + @Model.LastName)</h2>
+
+<h3>Clients for this provider:</h3>
+@foreach (Client client in @Model.Clients)
+{
+  <p>@Html.ActionLink(client.FirstName + " " + client.LastName, "Details", "Clients", new {id =client.ClientId})</p>
+}
+
+<p>@Html.ActionLink("Delete this stylist","Delete",new {id = @Model.StylistId})</p>
+<p>@Html.ActionLink("Edit this stylist","Edit",new {id = @Model.StylistId})</p>

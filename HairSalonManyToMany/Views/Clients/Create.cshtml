@@ -1,0 +1,25 @@
+@model HairSalonManyToMany.Models.Client;
+
+@{
+  Layout = "_Layout";
+}
+
+@if (ViewBag.AnyStylists == true)
+{
+  @using (Html.BeginForm())
+  {
+    @Html.Label("First Name")
+    @Html.TextBoxFor(model => model.FirstName, new{@class = "form-control"})
+
+    @Html.Label("Last Name")
+    @Html.TextBoxFor(model => model.LastName, new{@class = "form-control"})
+
+    @Html.DropDownList("StylistId");
+
+    <input type="submit" class="btn btn-success">
+  }
+}
+else
+{
+  <p>You need to add a stylist before you can add a client.</p>
+}

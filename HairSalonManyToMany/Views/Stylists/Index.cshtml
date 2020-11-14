@@ -1,0 +1,12 @@
+@using HairSalonManyToMany.Models
+
+@{
+  Layout = "_Layout";
+}
+
+@foreach (Stylist stylist in @Model)
+{
+  <p>@Html.ActionLink(stylist.FirstName + " " + stylist.LastName,"Details",new{id = stylist.StylistId})</p>
+}
+
+<p>@Html.ActionLink("Add a new stylist", "Create")</p>
