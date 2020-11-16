@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace HairSalonManyToMany.Models
 {
     public class Client
@@ -6,7 +8,11 @@ namespace HairSalonManyToMany.Models
         public string FirstName {get;set;}
         public string LastName {get;set;}
 
-        public int StylistId {get;set;}
-        public virtual Stylist Stylist {get;set;}
+        public virtual ICollection<ClientStylist> Stylists {get;set;}
+
+        public Client()
+        {
+            this.Stylists = new HashSet<ClientStylist>();
+        }
     }
 }

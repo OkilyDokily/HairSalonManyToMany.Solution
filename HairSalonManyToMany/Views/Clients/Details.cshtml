@@ -5,6 +5,6 @@
 @model HairSalonManyToMany.Models.Client;
 
 <p>Client Name : @Model.FirstName @Model.LastName</p>
-
+<p>@Html.ActionLink("Add another stylist to this client","AddAnotherStylist", new {id = @Model.ClientId})</p>
 <p>@Html.ActionLink("Delete this client","Delete",new {id = @Model.ClientId})</p>
 <p>@Html.ActionLink("Edit this client","Edit",new {id = @Model.ClientId})</p>

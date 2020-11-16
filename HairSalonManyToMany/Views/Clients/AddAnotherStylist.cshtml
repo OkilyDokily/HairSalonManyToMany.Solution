@@ -1,0 +1,7 @@
+@* <p>Add another stylist to @Model.FirstName @Model.LastName</p> *@
+@model HairSalonManyToMany.Models.Client
+@using (Html.BeginForm())
+{
+  @Html.DropDownList("StylistId")
+  <input type="submit" value="Go!">
+}

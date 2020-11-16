@@ -34,8 +34,7 @@ namespace HairSalonManyToMany.Controllers
 
     public ActionResult Details(int id)
     {
-      Stylist stylist = _db.Stylists.FirstOrDefault(x => x.StylistId == id);
-      stylist.Clients = _db.Clients.Where(x => x.StylistId == id).ToList();
+      Stylist stylist = _db.Stylists.Include(s => s.Clients).ThenInclude(sc => sc.Client).FirstOrDefault(x => x.StylistId == id);
       return View(stylist);
     }
 

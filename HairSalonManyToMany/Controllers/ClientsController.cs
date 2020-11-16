@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace HairSalonManyToMany.Controllers
 {
@@ -17,20 +18,36 @@ namespace HairSalonManyToMany.Controllers
 
     public ActionResult Index()
     {
-      List<Client> clients = _db.Clients.Include(x => x.Stylist).ToList();
+      List<Client> clients = _db.Clients.Include(x => x.Stylists).ThenInclude(x => x.Stylist).ToList();
       return View(clients);
     }
 
     public ActionResult Create()
     {
       ViewBag.AnyStylists = _db.Stylists.ToList().Count != 0;
-      ViewBag.StylistId = new SelectList(_db.Stylists, "StylistId", "LastName");
+      ViewBag.StylistId = new SelectList(_db.Stylists.Select(s => new { StylistId = s.StylistId, FullName = (s.FirstName + " " + s.LastName) }), "StylistId", "FullName");
       return View();
     }
     [HttpPost]
-    public ActionResult Create(Client client)
+    public ActionResult Create(Client client, int stylistid)
     {
       _db.Clients.Add(client);
+      _db.ClientStylists.Add(new ClientStylist { ClientId = client.ClientId, StylistId = stylistid });
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddAnotherStylist(int id)
+    {
+      ViewBag.StylistId = new SelectList(_db.Stylists.Select(s => new { StylistId = s.StylistId, FullName = (s.FirstName + " " + s.LastName) }), "StylistId", "FullName");
+      Client client = _db.Clients.FirstOrDefault(x => x.ClientId == id);
+      return View(client);
+    }
+
+    [HttpPost]
+    public ActionResult AddAnotherStylist(int id, int stylistid)
+    {
+      _db.ClientStylists.Add(new ClientStylist { ClientId = id, StylistId = stylistid });
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
